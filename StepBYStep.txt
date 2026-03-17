@@ -1,0 +1,55 @@
+STEP 1:
+    - Upload the dataset into the jupter notebook, so we can perform Data Preprocessin, Analysis and etc.
+    - We are using,
+           encoding="latin-1" -> Tweet dataset la special characters irukum. eg: emoji, char, symbols. Using "encoding" dataset safe ah read panum. otherwise it will throw an error as "UnicodeDecodeError"
+           usecols => Which hold the columns which we wanted to use in the project 
+
+STEP 2:
+    - Sampling 10k columns 
+    - df.sample() -> sample() randomly selects rows from the dataset.
+    - n = 10000 -> it shows how many columns we want (n) values
+    - random_state = 42 -> Every time the code runs -> same 10,000 tweets selected. without this everytime diff samples, This makes experiment results inconsistent.
+    - reset_index -> after sampling, the rows looks like eg: 14324 1 876 => rows index. If using this rest_index , it will recognize and shows as 0 1 2 3 4....(columns index)
+
+STEP 3: 
+    - Understanding Data
+    - First checking the "Unique" values from the columns, which shows (0, 4)
+    - Secondly we are checking the "count of values" which will shows how many 0s and 4s in the dataset
+
+STEP 4:
+    - Label Mapping 
+    - Mapping the "polarity" which can map the values, 0 as 0 and 4 as 1. 
+    - Why mapping? -> Training the models using the frameworks like "Pytorch" and "Tensorflow", it is better to use continuous class labels starting from 0.
+
+STEP 5:
+    - Text Cleaning
+    - Here we are removing the unwanted variab;e feature like space, emojis, numbers , mention, URL, and etc
+    - for NUMBERS = \d+ , URL = http\S+, SPACE = \s, MENTION = @\w+
+    - After removing, we are applying the function using .apply() . which is used to apply these removed function to all the columns
+    - Calculating the text length , bcoz of some DL models wants Fixed Input size 
+
+STEP 6:
+    - TOKENIZATION 
+    - It is used to convert "Text" into "Numbers"
+    - Importing the tokens, Creating a new token which will show the top freqyent words, without this the model may perform in 
+        Overfitting - Trained datas ah learn pannikom ,
+        Training time will increase, Noise - unwanted datas like emojis , space , numbers and etc. 
+    - Learns the vocalbulary
+    - Sequence , ethuthan nambaloda Numbers, where text numbers ah convert achi la athuthan.
+    - Once stored, check the sequence then print the sequence. 
+    - After that check the vocalbulary size, it has 13320 unique words stored in the dataset, but we setted only 5000 words 
+
+STEP 7:
+    - Sequence Padding 
+    - Why it is matter? => the sequence may have different input length, using this it will equals the input size adding "0" at the end. eg: [3,2,1] , max_len = 5, [3,2,1,0,0]
+    - Importing the pad_sequence. setting the max length for the padding. here we assign max_length = 35
+    - padding = post. post -> add 0 at the end.
+
+STEP 8:
+    - Train-Test-Split 
+    - Now, we are split the datas into Train and Test datas.
+    - X_labels = pad_x
+    - Y_labels = df['polarity']
+    - testing size = 20 %
+    - Random_state = 42, splits in same range
+
